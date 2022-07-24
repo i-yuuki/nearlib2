@@ -180,8 +180,10 @@
     <ClInclude Include="include\DirectXTK\SimpleMath.h" />
     <ClInclude Include="include\DirectXTK\WICTextureLoader.h" />
     <ClInclude Include="include\NearLib\asset.h" />
+    <ClInclude Include="include\NearLib\game-object.h" />
     <ClInclude Include="include\NearLib\index-buffer.h" />
     <ClInclude Include="include\NearLib\texture.h" />
+    <ClInclude Include="include\NearLib\transform.h" />
     <ClInclude Include="include\NearLib\vertex-buffer.h" />
     <ClInclude Include="include\NearLib\event.h" />
     <ClInclude Include="include\NearLib\input.h" />
@@ -199,8 +201,10 @@
   <ItemGroup>
     <ClCompile Include="src\DirectXTK\SimpleMath.cpp" />
     <ClCompile Include="src\DirectXTK\WICTextureLoader.cpp" />
+    <ClCompile Include="src\game-object.cpp" />
     <ClCompile Include="src\index-buffer.cpp" />
     <ClCompile Include="src\texture.cpp" />
+    <ClCompile Include="src\transform.cpp" />
     <ClCompile Include="src\vertex-buffer.cpp" />
     <ClCompile Include="src\input.cpp" />
     <ClCompile Include="src\near.cpp" />
