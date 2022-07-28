@@ -6,6 +6,39 @@ NearLib (にあーりぶ) は Windows ゲーム開発のスタートダッシュ
 
 NearLib 1 は[ここ](https://github.com/i-yuuki/near/tree/gui)にあったりなかったり。
 
+## この実験ブランチについて
+
+密 (結合) です。
+
+`GameObject` が `NearLib` ポインター、`NearLib` が `Renderer` ポインターを保持します。`Renderer` を自分で作って管理したり、それを `GameObject` に渡す方法で悩んだりする必要がなく、NearLib 1 みたいな使い方ができます。
+
+before:
+
+```cpp
+// 頑張ってどっかから取得する場合
+void MyGameObject::onDraw() override{
+  MyGame::GetInstance()->getRenderer().drawMesh(vertexBuffer);
+}
+// 全オブジェクトでわざわざ渡す場合
+class MyGameObject : public Near::GameObject{
+public:
+  MyGameObject(Near::NearLib* lib, Near::Renderer* renderer, ...) : Near::GameObject(), lib(lib), renderer(renderer){
+  }
+private:
+  Near::NearLib* lib;
+  Near::Renderer* renderer;
+};
+scene.getLayer(...)->createGameObject<MyGameObject>(&lib, &renderer, ...);
+```
+
+after:
+
+```cpp
+void MyGameObject::onDraw() override{
+  lib->getRenderer().drawMesh(vertexBuffer);
+}
+```
+
 ## 特徴
 
 - バッファ・テクスチャ・シェーダーを大胆にラップ
