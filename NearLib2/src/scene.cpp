@@ -66,7 +66,8 @@ Scene::~Scene(){
   uninit();
 }
 
-void Scene::init(){
+void Scene::init(NearLib* lib){
+  this->lib = lib;
   insertLayer(LAYER_MANAGERS);
   insertLayer(LAYER_OBJECTS);
   insertLayer(LAYER_TRANSPARENT_OBJECTS);
@@ -113,7 +114,7 @@ Layer* Scene::insertLayer(int num){
   // 要素があったら<既存の要素, false>、なかったら挿入して<挿入した要素, true>のpairを返す
   auto [it, inserted] = layers.try_emplace(num);
   if(inserted){
-    it->second.init(this);
+    it->second.init(lib, this);
   }
   return &it->second;
 }

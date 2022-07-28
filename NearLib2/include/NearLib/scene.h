@@ -40,7 +40,7 @@ public:
   ObjectCollection objects;
   Scene();
   virtual ~Scene();
-  void init();
+  void init(NearLib* lib);
   void update(float deltaTime);
   void draw();
   void uninit();
@@ -53,6 +53,7 @@ public:
   // この番号のレイヤーがあれば、その中のすべてのオブジェクトとともに削除します。
   void deleteLayer(int num);
 protected:
+  NearLib* lib = nullptr;
   std::map<int, Layer> layers;
   virtual void onInit();
   // `update()`によって、各レイヤーの一連の更新の前に呼ばれます。

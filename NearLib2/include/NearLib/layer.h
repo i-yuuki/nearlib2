@@ -21,7 +21,7 @@ public:
   };
   ObjectCollecgtion objects;
   Layer();
-  void init(Scene* scene);
+  void init(NearLib* lib, Scene* scene);
   void beforeUpdate(float deltaTime);
   void update(float deltaTime);
   void afterUpdate(float deltaTime);
@@ -31,10 +31,12 @@ public:
   template<class T, typename... Args>
   std::shared_ptr<T> createGameObject(Args&&... args){
     auto obj = std::make_shared<T>(std::forward<Args>(args)...);
-    obj->init(this);
+    obj->init(lib, this);
     objectList.push_back(obj);
     return obj;
   }
+protected:
+  NearLib* lib = nullptr;
 private:
   Scene* scene = nullptr;
   std::vector<std::shared_ptr<GameObject>> objectList;

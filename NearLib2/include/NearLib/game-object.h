@@ -1,5 +1,6 @@
 #pragma once
 
+#include "near.h"
 #include "transform.h"
 
 namespace Near{
@@ -13,7 +14,7 @@ public:
   // オブジェクトを初期化します。
   // オブジェクトによっては素材の読み込みが行われます。
   // @param layer このオブジェクトを持つレイヤー
-  void init(Layer* layer);
+  void init(NearLib* lib, Layer* layer);
   // LayerまたはSceneによって、各オブジェクトの`update()`の前に呼ばれます。
   // @param deltaTime 前のフレームからの経過時間
   void beforeUpdate(float deltaTime);
@@ -36,6 +37,7 @@ public:
   void markRemove();
   Transform transform{};
 protected:
+  NearLib* lib = nullptr;
   virtual void onInit(Layer* layer);
   virtual void onBeforeUpdate(float deltaTime);
   virtual void onUpdate(float deltaTime);

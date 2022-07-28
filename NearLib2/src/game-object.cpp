@@ -7,7 +7,8 @@ GameObject::~GameObject(){
   uninit();
 }
 
-void GameObject::init(Layer* layer){
+void GameObject::init(NearLib* lib, Layer* layer){
+  this->lib = lib;
   this->layer = layer;
   removeMarked = false;
   onInit(layer);

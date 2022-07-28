@@ -19,7 +19,8 @@ Layer::ObjectIterator Layer::ObjectCollecgtion::end(){
 Layer::Layer() : objects(this){
 }
 
-void Layer::init(Scene* scene){
+void Layer::init(NearLib* lib, Scene* scene){
+  this->lib = lib;
   this->scene = scene;
 }
 
