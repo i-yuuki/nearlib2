@@ -15,13 +15,13 @@ public:
   // @param layer このオブジェクトを持つレイヤー
   void init(Layer* layer);
   // LayerまたはSceneによって、各オブジェクトの`update()`の前に呼ばれます。
-  // @param deltaTime 前のフレームからの経過時間 (ms)
+  // @param deltaTime 前のフレームからの経過時間
   void beforeUpdate(float deltaTime);
   // オブジェクトを1フレーム進めます。
-  // @param deltaTime 前のフレームからの経過時間 (ms)
+  // @param deltaTime 前のフレームからの経過時間
   void update(float deltaTime);
   // LayerまたはSceneによって、各オブジェクトの`update()`の後に呼ばれます。
-  // @param deltaTime 前のフレームからの経過時間 (ms)
+  // @param deltaTime 前のフレームからの経過時間
   void afterUpdate(float deltaTime);
   // オブジェクトを描画します。
   void draw();
