@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include <NearLib/near.h>
 #include <NearLib/input.h>
+#include <NearLib/renderer.h>
 #include <NearLib/window.h>
 #include <NearLib/utils.h>
 
@@ -29,9 +30,13 @@ void NearLib::init(const InitParams& params){
 
   input = new InputManager();
   input->init(this);
+
+  renderer = new Renderer();
+  renderer->init(this);
 }
 
 void NearLib::uninit(){
+  safeUninitDelete(renderer);
   safeUninitDelete(input);
   safeUninitDelete(window);
 
@@ -61,6 +66,10 @@ InputManager& NearLib::getInput() const{
 
 Window& NearLib::getWindow() const{
   return *window;
+}
+
+Renderer& NearLib::getRenderer() const{
+  return *renderer;
 }
 
 }

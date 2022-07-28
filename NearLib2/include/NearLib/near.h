@@ -36,10 +36,12 @@ public:
   void markClose();
   InputManager& getInput() const;
   Window& getWindow() const;
+  Renderer& getRenderer() const;
 private:
   bool closeMarked;
   InputManager* input;
   Window* window;
+  Renderer* renderer;
 };
 
 }
