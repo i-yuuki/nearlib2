@@ -2,13 +2,11 @@
 
 #include <string>
 
-#include "near.h"
-
 namespace Near{
 
 class Asset{
 public:
-  virtual void load(NearLib* lib, const std::string& path) = 0;
+  virtual void load(const std::string& path) = 0;
 };
 
 }

@@ -3,8 +3,8 @@ VertexBuffer<T>::~VertexBuffer(){
 }
 
 template<typename T>
-void VertexBuffer<T>::init(NearLib* lib, bool dynamic, const T* data, size_t count){
-  initRaw(lib, dynamic, data, sizeof(T) * count);
+void VertexBuffer<T>::init(bool dynamic, const T* data, size_t count){
+  initRaw(dynamic, data, sizeof(T) * count);
   vertexCount = static_cast<unsigned int>(count);
   stride = sizeof(T);
 }

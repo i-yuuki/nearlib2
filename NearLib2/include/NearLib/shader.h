@@ -9,11 +9,10 @@ namespace Near{
 class VertexShader : public Asset{
 public:
   ~VertexShader();
-  void load(NearLib* lib, const std::string& path) override;
+  void load(const std::string& path) override;
   ID3D11VertexShader* getShader() const;
   ID3D11InputLayout* getLayout() const;
 private:
-  NearLib* lib;
   ID3D11VertexShader* shader = nullptr;
   ID3D11InputLayout* layout = nullptr;
 };
@@ -21,10 +20,9 @@ private:
 class PixelShader : public Asset{
 public:
   ~PixelShader();
-  void load(NearLib* lib, const std::string& path) override;
+  void load(const std::string& path) override;
   ID3D11PixelShader* getShader() const;
 private:
-  NearLib* lib;
   ID3D11PixelShader* shader = nullptr;
 };
 

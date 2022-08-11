@@ -1,6 +1,6 @@
 #include "pch.h"
 #include <NearLib/index-buffer.h>
-#include <NearLib/window.h>
+#include <NearLib/near.h>
 #include <NearLib/utils.h>
 
 #include <d3d11.h>
@@ -11,10 +11,9 @@ IndexBuffer::~IndexBuffer(){
   uninit();
 }
 
-void IndexBuffer::init(NearLib* lib, bool dynamic, unsigned int indexCount, uint32_t* indices){
+void IndexBuffer::init(bool dynamic, unsigned int indexCount, uint32_t* indices){
   if(!dynamic && !indices) throw std::invalid_argument("Indices must be non-null in non-dynamic IndexBuffer");
 
-  this->lib = lib;
   this->dynamic = dynamic;
   this->indexCount = indexCount;
   size = sizeof(uint32_t) * indexCount;
@@ -32,7 +31,7 @@ void IndexBuffer::init(NearLib* lib, bool dynamic, unsigned int indexCount, uint
   D3D11_SUBRESOURCE_DATA subresource = {};
   subresource.pSysMem = indices;
 
-  result = lib->getWindow().getDevice()->CreateBuffer(&bufferDesc, indices ? &subresource : nullptr, &buffer);
+  result = window.getDevice()->CreateBuffer(&bufferDesc, indices ? &subresource : nullptr, &buffer);
   if(FAILED(result)) throwResult("CreateBuffer failed", result);
 }
 
@@ -56,7 +55,7 @@ void IndexBuffer::set(uint32_t* indices){
   if(!dynamic) throw std::exception("Can't call set() on non-dynamic buffer");
 
   HRESULT res;
-  auto* ctx = lib->getWindow().getDeviceContext();
+  auto* ctx = window.getDeviceContext();
 
   D3D11_MAPPED_SUBRESOURCE resource;
   res = ctx->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &resource);

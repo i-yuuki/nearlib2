@@ -2,7 +2,6 @@
 
 #include <d3d11.h>
 
-#include "near.h"
 #include "index-buffer.h"
 #include "math.h"
 #include "shader.h"
@@ -11,12 +10,14 @@
 
 namespace Near{
 
+class Window;
+
 class Renderer{
 public:
   Renderer();
   Renderer(const Renderer& copyFrom) = delete;
   ~Renderer();
-  void init(NearLib* lib);
+  void init(Window* window);
   void uninit();
   Math::Matrix getWorldTransform();
   Math::Matrix getViewTransform();
@@ -31,7 +32,7 @@ public:
   void drawMesh(const VertexBufferBase& vertices);
   void drawMesh(const VertexBufferBase& vertices, const IndexBuffer& indices);
 private:
-  NearLib* lib;
+  Window* window;
   ID3D11RasterizerState* rasterizerState = nullptr;
   ID3D11BlendState* blendState = nullptr;
   ID3D11DepthStencilState* depthStencilState = nullptr;

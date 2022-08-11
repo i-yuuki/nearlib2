@@ -1,7 +1,7 @@
 #include "pch.h"
 #include <NearLib/renderer.h>
 
-#include <NearLib/window.h>
+#include <NearLib/near.h>
 #include <NearLib/utils.h>
 
 namespace Near{
@@ -13,12 +13,12 @@ Renderer::~Renderer(){
   uninit();
 }
 
-void Renderer::init(NearLib* lib){
-  this->lib = lib;
+void Renderer::init(Window* window){
+  this->window = window;
 
   HRESULT res;
-  auto* device = lib->getWindow().getDevice();
-  auto* deviceContext = lib->getWindow().getDeviceContext();
+  auto* device = window->getDevice();
+  auto* deviceContext = window->getDeviceContext();
 
   D3D11_RASTERIZER_DESC rasterizerDesc{};
   rasterizerDesc.FillMode = D3D11_FILL_SOLID;
@@ -117,28 +117,28 @@ DirectX::SimpleMath::Matrix Renderer::getProjectionTransform(){
 void Renderer::setWorldTransform(DirectX::SimpleMath::Matrix transform){
   worldTransform = transform;
   DirectX::SimpleMath::Matrix t = transform.Transpose();
-  lib->getWindow().getDeviceContext()->UpdateSubresource(worldBuffer, 0, nullptr, &t, 0, 0);
+  window->getDeviceContext()->UpdateSubresource(worldBuffer, 0, nullptr, &t, 0, 0);
 }
 
 void Renderer::setViewTransform(DirectX::SimpleMath::Matrix transform){
   viewTransform = transform;
   DirectX::SimpleMath::Matrix t = transform.Transpose();
-  lib->getWindow().getDeviceContext()->UpdateSubresource(viewBuffer, 0, nullptr, &t, 0, 0);
+  window->getDeviceContext()->UpdateSubresource(viewBuffer, 0, nullptr, &t, 0, 0);
 }
 
 void Renderer::setProjectionTransform(DirectX::SimpleMath::Matrix transform){
   projectionTransform = transform;
   DirectX::SimpleMath::Matrix t = transform.Transpose();
-  lib->getWindow().getDeviceContext()->UpdateSubresource(projectionBuffer, 0, nullptr, &t, 0, 0);
+  window->getDeviceContext()->UpdateSubresource(projectionBuffer, 0, nullptr, &t, 0, 0);
 }
 
 void Renderer::setVertexShader(const VertexShader& shader){
-  lib->getWindow().getDeviceContext()->IASetInputLayout(shader.getLayout());
-  lib->getWindow().getDeviceContext()->VSSetShader(shader.getShader(), nullptr, 0);
+  window->getDeviceContext()->IASetInputLayout(shader.getLayout());
+  window->getDeviceContext()->VSSetShader(shader.getShader(), nullptr, 0);
 }
 
 void Renderer::setPixelShader(const PixelShader& shader){
-  lib->getWindow().getDeviceContext()->PSSetShader(shader.getShader(), nullptr, 0);
+  window->getDeviceContext()->PSSetShader(shader.getShader(), nullptr, 0);
 }
 
 void Renderer::setShaders(const VertexShader& vertexShader, const PixelShader& pixelShader){
@@ -148,14 +148,14 @@ void Renderer::setShaders(const VertexShader& vertexShader, const PixelShader& p
 
 void Renderer::setTexture(const Texture& texture){
   auto view = texture.getTextureView();
-  lib->getWindow().getDeviceContext()->PSSetShaderResources(0, 1, &view);
+  window->getDeviceContext()->PSSetShaderResources(0, 1, &view);
 }
 
 void Renderer::drawMesh(const VertexBufferBase& vertices){
   auto buffer = vertices.getBuffer();
   unsigned int stride = vertices.getStride();
   unsigned int offset = 0;
-  auto ctx = lib->getWindow().getDeviceContext();
+  auto ctx = window->getDeviceContext();
   ctx->IASetVertexBuffers(0, 1, &buffer, &stride, &offset);
   ctx->Draw(vertices.getVertexCount(), 0);
 }
@@ -164,7 +164,7 @@ void Renderer::drawMesh(const VertexBufferBase& vertices, const IndexBuffer& ind
   auto vertexBuffer = vertices.getBuffer();
   unsigned int stride = vertices.getStride();
   unsigned int offset = 0;
-  auto ctx = lib->getWindow().getDeviceContext();
+  auto ctx = window->getDeviceContext();
   ctx->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
   ctx->IASetIndexBuffer(indices.getBuffer(), DXGI_FORMAT_R32_UINT, 0);
   ctx->DrawIndexed(indices.getIndexCount(), 0, 0);

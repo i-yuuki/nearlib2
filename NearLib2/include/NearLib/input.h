@@ -4,7 +4,7 @@
 
 #include <Windows.h>
 
-#include "near.h"
+#include "window.h"
 #include "event.h"
 
 namespace Near{
@@ -30,7 +30,7 @@ public:
     int x;
     int y;
   };
-  void init(NearLib* lib);
+  void init(Window* window);
   void uninit();
   // キーが押されているかを返します。
   // @param key 仮想キーコード
@@ -58,7 +58,7 @@ public:
   Event::Signal<MouseEvent> onMouseDown;
   Event::Signal<MouseEvent> onMouseUp;
 private:
-  HWND window;
+  Window* window = nullptr;
   
   constexpr static int BUTTON_COUNT = 256;
   ButtonState buttons[BUTTON_COUNT];
@@ -69,7 +69,7 @@ private:
   int mouseMovementY;
   bool mouseLocked;
 
-  friend NearLib;
+  friend void pollEvents();
   void beforePollEvents();
 };
 
