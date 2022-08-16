@@ -201,6 +201,7 @@
     <ClInclude Include="src\DirectXTK\DirectXHelpers.h" />
     <ClInclude Include="src\DirectXTK\LoaderHelpers.h" />
     <ClInclude Include="src\DirectXTK\PlatformHelpers.h" />
+    <ClInclude Include="src\internal\logger.h" />
     <ClInclude Include="src\pch.h" />
   </ItemGroup>
   <ItemGroup>
