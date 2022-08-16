@@ -3,6 +3,7 @@
 
 #include <NearLib/near.h>
 #include <NearLib/utils.h>
+#include "internal/logger.h"
 
 namespace Near{
 
@@ -33,6 +34,8 @@ Window::~Window(){
 }
 
 void Window::init(HINSTANCE instance, int width, int height, const std::string_view title){
+  NEAR_LOG_INFO("Creating wnidow...");
+
   constexpr const wchar_t* windowClassName = L"NearGameWindow";
   DWORD windowStyle = WS_OVERLAPPEDWINDOW;
 
@@ -87,11 +90,15 @@ void Window::init(HINSTANCE instance, int width, int height, const std::string_v
   ShowWindow(window, SW_NORMAL);
   UpdateWindow(window);
 
+  NEAR_LOG_INFO("Window created, initializing DirectX...");
+
   initDevice();
   initRenderTargetView();
   initDepthStencilView();
   deviceContext->OMSetRenderTargets(1, &renderTargetView, depthStencilView);
   initViewport();
+
+  NEAR_LOG_INFO("DirectX ready!");
 }
 
 void Window::initDevice(){

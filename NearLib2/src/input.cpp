@@ -4,9 +4,13 @@
 #include <hidusage.h>
 #include <windowsx.h>
 
+#include "internal/logger.h"
+
 namespace Near{
 
 void InputManager::init(Window* window){
+  NEAR_LOG_INFO("Initializing input manager...");
+
   this->window = window;
   HWND windowHandle = window->getWindow();
   RAWINPUTDEVICE devices[2] = {};
@@ -19,6 +23,8 @@ void InputManager::init(Window* window){
   if(!RegisterRawInputDevices(devices, 2, sizeof(devices[0]))){
     throw std::exception("RegisterRawInputDevices failed");
   }
+
+  NEAR_LOG_INFO("Input manager initialized!");
 }
 
 void InputManager::uninit(){
