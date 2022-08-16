@@ -1,5 +1,6 @@
 ﻿#include "pch.h"
 #include <NearLib/near.h>
+#include <NearLib/assets.h>
 #include <NearLib/input.h>
 #include <NearLib/window.h>
 #include <NearLib/utils.h>
@@ -33,11 +34,20 @@ void init(const InitParams& params){
   input.init(&window);
   renderer.init(&window);
 
+  // 関数わけてもよさげ
+  Assets::vertexShaders = std::make_unique<AssetManager<VertexShader>>();
+  Assets::pixelShaders = std::make_unique<AssetManager<PixelShader>>();
+  Assets::textures = std::make_unique<AssetManager<Texture>>();
+
   NEAR_LOG_INFO("NearLib initialized!");
 }
 
 void uninit(){
   NEAR_LOG_INFO("Uninitializing NearLib...");
+
+  Assets::vertexShaders.reset();
+  Assets::pixelShaders.reset();
+  Assets::textures.reset();
 
   input.uninit();
   window.uninit();
