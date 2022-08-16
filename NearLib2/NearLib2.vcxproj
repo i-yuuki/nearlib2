@@ -180,7 +180,9 @@
   <ItemGroup>
     <ClInclude Include="include\DirectXTK\SimpleMath.h" />
     <ClInclude Include="include\DirectXTK\WICTextureLoader.h" />
+    <ClInclude Include="include\NearLib\asset-manager.h" />
     <ClInclude Include="include\NearLib\asset.h" />
+    <ClInclude Include="include\NearLib\assets.h" />
     <ClInclude Include="include\NearLib\clock.h" />
     <ClInclude Include="include\NearLib\game-object-collection.h" />
     <ClInclude Include="include\NearLib\game-object.h" />
@@ -206,6 +208,7 @@
     <ClInclude Include="src\pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\assets.cpp" />
     <ClCompile Include="src\clock.cpp" />
     <ClCompile Include="src\DirectXTK\SimpleMath.cpp" />
     <ClCompile Include="src\DirectXTK\WICTextureLoader.cpp" />
