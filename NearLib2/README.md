@@ -8,9 +8,12 @@ NearLib 1 は[ここ](https://github.com/i-yuuki/near/tree/gui)にあったり�
 
 ## 特徴
 
+- シングルトンスタイル
 - バッファ・テクスチャ・シェーダーを大胆にラップ
+- シーンとゲームオブジェクト
 - イベント (???)
 - キー & マウス入力
+- そこら中にUTF-8
 - [手抜き™](https://github.com/microsoft/DirectXTK)
 - More coming soon! (たぶん)
 
