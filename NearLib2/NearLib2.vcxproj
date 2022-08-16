@@ -180,6 +180,7 @@
   <ItemGroup>
     <ClInclude Include="include\DirectXTK\SimpleMath.h" />
     <ClInclude Include="include\DirectXTK\WICTextureLoader.h" />
+    <ClInclude Include="include\NearLib\asset-manager.h" />
     <ClInclude Include="include\NearLib\asset.h" />
     <ClInclude Include="include\NearLib\clock.h" />
     <ClInclude Include="include\NearLib\game-object-collection.h" />
