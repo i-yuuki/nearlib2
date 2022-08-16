@@ -6,6 +6,20 @@ NearLib (にあーりぶ) は Windows ゲーム開発のスタートダッシュ
 
 NearLib 1 は[ここ](https://github.com/i-yuuki/near/tree/gui)にあったりなかったり。
 
+## この実験ブランチについて
+
+シングルトンです🐖
+
+各部品の実体が名前空間内に最初から宣言・定義されています。ちなみに NearLib 1 のときは `Near::init()` で `new` されていました。
+
+```cpp
+// NearLib 1:
+Near::renderer()->setVertexShader(...);
+
+// NearLib 2:
+Near::renderer.setVertexShader(...);
+```
+
 ## 特徴
 
 - バッファ・テクスチャ・シェーダーを大胆にラップ
@@ -38,20 +52,19 @@ NearLib 1 は[ここ](https://github.com/i-yuuki/near/tree/gui)にあったり�
 #include <NearLib/near.h>
 int APIENTRY WinMain(HINSTANCE, HINSTANCE, LPSTR, int){
   // しょきか
-  Near::NearLib lib;
-  Near::NearLib::InitParams initParams{};
+  Near::InitParams initParams{};
   initParams.width = 1200;
   initParams.height = 800;
   initParams.windowTitle = u8"🍅";
-  lib.init(initParams);
+  Near::init(initParams);
   // げむるぷ
-  while (!lib.shouldClose()){
-    lib.pollEvents();
-    lib.getWindow().clear(Near::Math::Color(0.9f, 0.9f, 0.9f, 1.0f));
-    lib.getWindow().present();
+  while (!Near::shouldClose()){
+    Near::pollEvents();
+    Near::window.clear(Near::Math::Color(0.9f, 0.9f, 0.9f, 1.0f));
+    Near::window.present();
   }
   // かたづけ
-  lib.uninit();
+  Near::uninit();
   return 0;
 }
 ```

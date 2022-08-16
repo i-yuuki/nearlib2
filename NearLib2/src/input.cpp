@@ -4,20 +4,27 @@
 #include <hidusage.h>
 #include <windowsx.h>
 
+#include "internal/logger.h"
+
 namespace Near{
 
-void InputManager::init(NearLib* lib){
+void InputManager::init(Window* window){
+  NEAR_LOG_INFO("Initializing input manager...");
+
   this->window = window;
+  HWND windowHandle = window->getWindow();
   RAWINPUTDEVICE devices[2] = {};
   devices[0].usUsagePage = HID_USAGE_PAGE_GENERIC;
   devices[0].usUsage = HID_USAGE_GENERIC_KEYBOARD;
-  devices[0].hwndTarget = window;
+  devices[0].hwndTarget = windowHandle;
   devices[1].usUsagePage = HID_USAGE_PAGE_GENERIC;
   devices[1].usUsage = HID_USAGE_GENERIC_MOUSE;
-  devices[1].hwndTarget = window;
+  devices[1].hwndTarget = windowHandle;
   if(!RegisterRawInputDevices(devices, 2, sizeof(devices[0]))){
     throw std::exception("RegisterRawInputDevices failed");
   }
+
+  NEAR_LOG_INFO("Input manager initialized!");
 }
 
 void InputManager::uninit(){
@@ -54,7 +61,7 @@ bool InputManager::isMouseLocked(){
 void InputManager::lockMouse(bool lock){
   if(mouseLocked == lock) return;
   mouseLocked = lock;
-  SetCursor(mouseLocked ? NULL : (HCURSOR)GetClassLongW(window, GCL_HCURSOR));
+  SetCursor(mouseLocked ? NULL : (HCURSOR)GetClassLongW(window->getWindow(), GCL_HCURSOR));
 }
 
 void InputManager::beforePollEvents(){
@@ -67,16 +74,18 @@ void InputManager::beforePollEvents(){
   }
   mouseMovementX = 0;
   mouseMovementY = 0;
-  if(mouseLocked && window == GetActiveWindow()){
+  HWND windowHandle = window->getWindow();
+  if(mouseLocked && windowHandle == GetActiveWindow()){
     RECT client = {};
-    GetClientRect(window, &client);
+    GetClientRect(windowHandle, &client);
     POINT pos = {client.right / 2, client.bottom / 2};
-    ClientToScreen(window, &pos);
+    ClientToScreen(windowHandle, &pos);
     SetCursorPos(pos.x, pos.y);
   }
 }
 
 bool InputManager::processMessage(UINT message, WPARAM wParam, LPARAM lParam){
+  HWND windowHandle = window->getWindow();
   if(message == WM_INPUT){
     HRAWINPUT rawInput = reinterpret_cast<HRAWINPUT>(lParam);
     UINT size;
@@ -103,7 +112,7 @@ bool InputManager::processMessage(UINT message, WPARAM wParam, LPARAM lParam){
           static_cast<LONG>((input.data.mouse.lLastX / 65535.0f) * width),
           static_cast<LONG>((input.data.mouse.lLastY / 65535.0f) * height),
         };
-        ScreenToClient(window, &point);
+        ScreenToClient(windowHandle, &point);
         // printf_s("%d / %d -> %d / %d\n", mouseX, mouseY, absoluteX, absoluteY);
         mouseMovementX += point.x - mouseX;
         mouseMovementY += point.y - mouseY;
@@ -145,7 +154,7 @@ bool InputManager::processMessage(UINT message, WPARAM wParam, LPARAM lParam){
     mouseY = GET_Y_LPARAM(lParam);
     return true;
   }else if(message == WM_SETCURSOR){
-    if(mouseLocked && window == GetActiveWindow()){
+    if(mouseLocked && windowHandle == GetActiveWindow()){
       SetCursor(NULL);
       return true;
     }

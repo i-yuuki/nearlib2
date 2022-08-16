@@ -1,6 +1,6 @@
 #include "pch.h"
 #include <NearLib/vertex-buffer.h>
-#include <NearLib/window.h>
+#include <NearLib/near.h>
 #include <NearLib/utils.h>
 
 namespace Near{
@@ -9,10 +9,9 @@ VertexBufferBase::~VertexBufferBase(){
   uninit();
 }
 
-void VertexBufferBase::initRaw(NearLib* lib, bool dynamic, const void* data, size_t size){
+void VertexBufferBase::initRaw(bool dynamic, const void* data, size_t size){
   if(!dynamic && !data) throw std::invalid_argument("Data must be non-null in non-dynamic VertexBuffer");
 
-  this->lib = lib;
   this->dynamic = dynamic;
 
   HRESULT result;
@@ -28,7 +27,7 @@ void VertexBufferBase::initRaw(NearLib* lib, bool dynamic, const void* data, siz
   D3D11_SUBRESOURCE_DATA subresource = {};
   subresource.pSysMem = data;
 
-  result = lib->getWindow().getDevice()->CreateBuffer(&bufferDesc, data ? &subresource : nullptr, &buffer);
+  result = window.getDevice()->CreateBuffer(&bufferDesc, data ? &subresource : nullptr, &buffer);
   if(FAILED(result)) throwResult("CreateBuffer failed", result);
 }
 
@@ -56,7 +55,7 @@ void VertexBufferBase::setRaw(const void* data, size_t size){
   if(!dynamic) throw std::exception("Can't call set() on non-dynamic buffer");
 
   HRESULT res;
-  auto* ctx = lib->getWindow().getDeviceContext();
+  auto* ctx = window.getDeviceContext();
 
   D3D11_MAPPED_SUBRESOURCE resource;
   res = ctx->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &resource);

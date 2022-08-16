@@ -4,42 +4,51 @@
 #include <NearLib/window.h>
 #include <NearLib/utils.h>
 
+#include "internal/logger.h"
+
 namespace Near{
 
+Window window;
+Renderer renderer;
+InputManager input;
 
-NearLib::NearLib(){
-}
+bool closeMarked;
 
-NearLib::~NearLib(){
-}
-
-void NearLib::init(const InitParams& params){
+void init(const InitParams& params){
   closeMarked = false;
   CoInitialize(nullptr);
 
-  window = new Window();
-  window->init(GetModuleHandleW(nullptr), params.width, params.height, params.windowTitle);
-  window->setResizable(params.resizable);
-  window->windowProc.addListener([this](UINT msg, WPARAM wParam, LPARAM lParam){
+  Internal::Logger::Init();
+  NEAR_LOG_INFO("Initializing NearLib...");
+
+  window.init(GetModuleHandleW(nullptr), params.width, params.height, params.windowTitle);
+  window.setResizable(params.resizable);
+  window.windowProc.addListener([](UINT msg, WPARAM wParam, LPARAM lParam){
     if(msg == WM_DESTROY){
       markClose();
     }
-    input->processMessage(msg, wParam, lParam);
+    input.processMessage(msg, wParam, lParam);
   });
 
-  input = new InputManager();
-  input->init(this);
+  input.init(&window);
+  renderer.init(&window);
+
+  NEAR_LOG_INFO("NearLib initialized!");
 }
 
-void NearLib::uninit(){
-  safeUninitDelete(input);
-  safeUninitDelete(window);
+void uninit(){
+  NEAR_LOG_INFO("Uninitializing NearLib...");
+
+  input.uninit();
+  window.uninit();
+
+  Internal::Logger::Uninit();
 
   CoUninitialize();
 }
 
-void NearLib::pollEvents(){
-  input->beforePollEvents();
+void pollEvents(){
+  input.beforePollEvents();
   MSG msg = {};
   while(PeekMessageW(&msg, NULL, 0, 0, PM_REMOVE)){
     TranslateMessage(&msg);
@@ -47,20 +56,12 @@ void NearLib::pollEvents(){
   }
 }
 
-bool NearLib::shouldClose() const{
+bool shouldClose(){
   return closeMarked;
 }
 
-void NearLib::markClose(){
+void markClose(){
   closeMarked = true;
-}
-
-InputManager& NearLib::getInput() const{
-  return *input;
-}
-
-Window& NearLib::getWindow() const{
-  return *window;
 }
 
 }

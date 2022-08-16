@@ -1,6 +1,6 @@
 #pragma once
 
-#include "near.h"
+#include <d3d11.h>
 
 struct ID3D11Buffer;
 
@@ -14,7 +14,7 @@ public:
   // @param dynamic `set()`であとから中身を変えられるかどうか
   // @param indexCount インデックス数
   // @throws `dynamic == false && indices == nullptr`の場合
-  void init(NearLib* lib, bool dynamic, unsigned int indexCount, uint32_t* indices);
+  void init(bool dynamic, unsigned int indexCount, uint32_t* indices);
   // インデックスバッファを解放します。
   void uninit();
   unsigned int getIndexCount() const;
@@ -25,7 +25,6 @@ public:
   // @throws `isDynamic() == false`の場合
   void set(uint32_t* indices);
 private:
-  NearLib* lib = nullptr;
   bool dynamic = false;
   unsigned int indexCount = 0;
   unsigned int size = 0;

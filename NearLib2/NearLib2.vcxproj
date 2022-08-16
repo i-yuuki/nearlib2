@@ -185,6 +185,7 @@
     <ClInclude Include="include\NearLib\game-object.h" />
     <ClInclude Include="include\NearLib\index-buffer.h" />
     <ClInclude Include="include\NearLib\layer.h" />
+    <ClInclude Include="include\NearLib\logger.h" />
     <ClInclude Include="include\NearLib\scene.h" />
     <ClInclude Include="include\NearLib\texture.h" />
     <ClInclude Include="include\NearLib\transform.h" />
@@ -200,6 +201,7 @@
     <ClInclude Include="src\DirectXTK\DirectXHelpers.h" />
     <ClInclude Include="src\DirectXTK\LoaderHelpers.h" />
     <ClInclude Include="src\DirectXTK\PlatformHelpers.h" />
+    <ClInclude Include="src\internal\logger.h" />
     <ClInclude Include="src\pch.h" />
   </ItemGroup>
   <ItemGroup>
@@ -210,6 +212,7 @@
     <ClCompile Include="src\game-object.cpp" />
     <ClCompile Include="src\index-buffer.cpp" />
     <ClCompile Include="src\layer.cpp" />
+    <ClCompile Include="src\logger.cpp" />
     <ClCompile Include="src\scene.cpp" />
     <ClCompile Include="src\texture.cpp" />
     <ClCompile Include="src\transform.cpp" />

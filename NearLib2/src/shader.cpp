@@ -4,7 +4,7 @@
 #include <fstream>
 #include <d3dcompiler.h>
 
-#include <NearLib/window.h>
+#include <NearLib/near.h>
 #include <NearLib/utils.h>
 
 namespace Near{
@@ -14,7 +14,7 @@ VertexShader::~VertexShader(){
   safeRelease(layout);
 }
 
-void VertexShader::load(NearLib* lib, const std::string& path){
+void VertexShader::load(const std::string& path){
   ID3DBlob* code = nullptr;
   ID3DBlob* errorMessages = nullptr;
   ID3D11ShaderReflection* reflection = nullptr;
@@ -33,7 +33,7 @@ void VertexShader::load(NearLib* lib, const std::string& path){
       throwResult("Vertex shader compile failed", result);
     }
 
-    auto* device = lib->getWindow().getDevice();
+    auto* device = window.getDevice();
     result = device->CreateVertexShader(code->GetBufferPointer(), code->GetBufferSize(), nullptr, &shader);
     if(FAILED(result)) throwResult("CreateVertexShader failed", result);
 
@@ -119,7 +119,7 @@ PixelShader::~PixelShader(){
   safeRelease(shader);
 }
 
-void PixelShader::load(NearLib* lib, const std::string& path){
+void PixelShader::load(const std::string& path){
   ID3DBlob* code = nullptr;
   ID3DBlob* errorMessages = nullptr;
   try{
@@ -136,7 +136,7 @@ void PixelShader::load(NearLib* lib, const std::string& path){
       throwResult("Pixel shader compile failed", result);
     }
 
-    auto* device = lib->getWindow().getDevice();
+    auto* device = window.getDevice();
     result = device->CreatePixelShader(code->GetBufferPointer(), code->GetBufferSize(), nullptr, &shader);
     if(FAILED(result)) throwResult("CreatePixelShader failed", result);
   }catch(...){
