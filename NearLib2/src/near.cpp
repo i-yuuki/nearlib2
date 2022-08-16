@@ -4,6 +4,8 @@
 #include <NearLib/window.h>
 #include <NearLib/utils.h>
 
+#include "internal/logger.h"
+
 namespace Near{
 
 Window window;
@@ -16,6 +18,9 @@ void init(const InitParams& params){
   closeMarked = false;
   CoInitialize(nullptr);
 
+  Internal::Logger::Init();
+  NEAR_LOG_INFO("Initializing NearLib...");
+
   window.init(GetModuleHandleW(nullptr), params.width, params.height, params.windowTitle);
   window.setResizable(params.resizable);
   window.windowProc.addListener([](UINT msg, WPARAM wParam, LPARAM lParam){
@@ -27,11 +32,17 @@ void init(const InitParams& params){
 
   input.init(&window);
   renderer.init(&window);
+
+  NEAR_LOG_INFO("NearLib initialized!");
 }
 
 void uninit(){
+  NEAR_LOG_INFO("Uninitializing NearLib...");
+
   input.uninit();
   window.uninit();
+
+  Internal::Logger::Uninit();
 
   CoUninitialize();
 }
