@@ -59,13 +59,18 @@ void Renderer::init(Window* window){
   deviceContext->OMSetDepthStencilState(depthStencilState, 0);
 
   D3D11_SAMPLER_DESC samplerDesc{};
-  samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+  samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
   samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
   samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
   samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-  res = device->CreateSamplerState(&samplerDesc, &samplerState);
+  res = device->CreateSamplerState(&samplerDesc, &samplerStatePoint);
   if(FAILED(res)) throwResult("CreateSamplerState failed", res);
-  deviceContext->PSSetSamplers(0, 1, &samplerState);
+
+  samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+  res = device->CreateSamplerState(&samplerDesc, &samplerStateLinear);
+  if(FAILED(res)) throwResult("CreateSamplerState failed", res);
+
+  setTextureFiltering(textureFiltering); // デフォルトのフィルタリングをデバイスにセット
 
   // 座標変換をシェーダーに送る枠を作る
 
@@ -96,7 +101,8 @@ void Renderer::uninit(){
   safeRelease(projectionBuffer);
   safeRelease(viewBuffer);
   safeRelease(worldBuffer);
-  safeRelease(samplerState);
+  safeRelease(samplerStatePoint);
+  safeRelease(samplerStateLinear);
   safeRelease(depthStencilState);
   safeRelease(blendState);
   safeRelease(rasterizerState);
@@ -130,6 +136,19 @@ void Renderer::setProjectionTransform(DirectX::SimpleMath::Matrix transform){
   projectionTransform = transform;
   DirectX::SimpleMath::Matrix t = transform.Transpose();
   window->getDeviceContext()->UpdateSubresource(projectionBuffer, 0, nullptr, &t, 0, 0);
+}
+
+TextureFiltering Renderer::getTextureFiltering(){
+  return textureFiltering;
+}
+
+void Renderer::setTextureFiltering(TextureFiltering filtering){
+  switch(filtering){
+    case TextureFiltering::POINT:  window->getDeviceContext()->PSSetSamplers(0, 1, &samplerStatePoint); break;
+    case TextureFiltering::LINEAR: window->getDeviceContext()->PSSetSamplers(0, 1, &samplerStateLinear); break;
+    default: throw std::invalid_argument("Unknown texture filtering");
+  }
+  textureFiltering = filtering;
 }
 
 void Renderer::setVertexShader(const VertexShader& shader){

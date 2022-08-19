@@ -12,6 +12,11 @@ namespace Near{
 
 class Window;
 
+enum class TextureFiltering{
+  POINT,
+  LINEAR,
+};
+
 class Renderer{
 public:
   Renderer();
@@ -25,6 +30,8 @@ public:
   void setWorldTransform(Math::Matrix transform);
   void setViewTransform(Math::Matrix transform);
   void setProjectionTransform(Math::Matrix transform);
+  TextureFiltering getTextureFiltering();
+  void setTextureFiltering(TextureFiltering filtering);
   void setVertexShader(const VertexShader& shader);
   void setPixelShader(const PixelShader& shader);
   void setShaders(const VertexShader& vertexShader, const PixelShader& pixelShader);
@@ -36,13 +43,15 @@ private:
   ID3D11RasterizerState* rasterizerState = nullptr;
   ID3D11BlendState* blendState = nullptr;
   ID3D11DepthStencilState* depthStencilState = nullptr;
-  ID3D11SamplerState* samplerState = nullptr;
+  ID3D11SamplerState* samplerStatePoint = nullptr;
+  ID3D11SamplerState* samplerStateLinear = nullptr;
   ID3D11Buffer* worldBuffer = nullptr;
   ID3D11Buffer* viewBuffer = nullptr;
   ID3D11Buffer* projectionBuffer = nullptr;
   Math::Matrix worldTransform;
   Math::Matrix viewTransform;
   Math::Matrix projectionTransform;
+  TextureFiltering textureFiltering = TextureFiltering::LINEAR;
 };
 
 }
