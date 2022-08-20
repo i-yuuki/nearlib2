@@ -35,6 +35,9 @@ public:
     objectList.push_back(obj);
     return obj;
   }
+  // 初期化済みのオブジェクトをレイヤーに追加します。
+  // 同じオブジェクトを複数のレイヤーに追加しないように気を付けなはれや！
+  void addGameObject(std::shared_ptr<GameObject> object);
 private:
   Scene* scene = nullptr;
   std::vector<std::shared_ptr<GameObject>> objectList;

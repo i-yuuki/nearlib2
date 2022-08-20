@@ -69,4 +69,9 @@ Scene* Layer::getScene(){
   return scene;
 }
 
+void Layer::addGameObject(std::shared_ptr<GameObject> object){
+  if(std::find(objectList.begin(), objectList.end(), object) != objectList.end()) return;
+  objectList.push_back(object);
+}
+
 }
