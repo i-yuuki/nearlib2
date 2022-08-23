@@ -74,4 +74,10 @@ void Layer::addGameObject(std::shared_ptr<GameObject> object){
   objectList.push_back(object);
 }
 
+void Layer::removeGameObjectImmediate(std::shared_ptr<GameObject> object){
+  auto it = std::find(objectList.begin(), objectList.end(), object);
+  if(it == objectList.end()) return;
+  objectList.erase(it);
+}
+
 }
