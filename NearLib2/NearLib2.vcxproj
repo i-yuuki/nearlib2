@@ -185,6 +185,7 @@
     <ClInclude Include="include\NearLib\assets.h" />
     <ClInclude Include="include\NearLib\clock.h" />
     <ClInclude Include="include\NearLib\game-object-collection.h" />
+    <ClInclude Include="include\NearLib\game-object-pool.h" />
     <ClInclude Include="include\NearLib\game-object.h" />
     <ClInclude Include="include\NearLib\index-buffer.h" />
     <ClInclude Include="include\NearLib\layer.h" />
