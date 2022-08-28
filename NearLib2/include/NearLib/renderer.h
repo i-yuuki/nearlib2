@@ -36,8 +36,8 @@ public:
   void setPixelShader(const PixelShader& shader);
   void setShaders(const VertexShader& vertexShader, const PixelShader& pixelShader);
   void setTexture(const Texture& texture);
-  void drawMesh(const VertexBufferBase& vertices);
-  void drawMesh(const VertexBufferBase& vertices, const IndexBuffer& indices);
+  void drawMesh(const VertexBufferBase& vertices, D3D11_PRIMITIVE_TOPOLOGY topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+  void drawMesh(const VertexBufferBase& vertices, const IndexBuffer& indices, D3D11_PRIMITIVE_TOPOLOGY topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 private:
   Window* window;
   ID3D11RasterizerState* rasterizerState = nullptr;

@@ -94,7 +94,7 @@ void Renderer::init(Window* window){
   if(FAILED(res)) throwResult("CreateBuffer (projection transform) failed", res);
   deviceContext->VSSetConstantBuffers(2, 1, &projectionBuffer);
 
-  deviceContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+  deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 
 void Renderer::uninit(){
@@ -170,22 +170,24 @@ void Renderer::setTexture(const Texture& texture){
   window->getDeviceContext()->PSSetShaderResources(0, 1, &view);
 }
 
-void Renderer::drawMesh(const VertexBufferBase& vertices){
+void Renderer::drawMesh(const VertexBufferBase& vertices, D3D11_PRIMITIVE_TOPOLOGY topology){
   auto buffer = vertices.getBuffer();
   unsigned int stride = vertices.getStride();
   unsigned int offset = 0;
   auto ctx = window->getDeviceContext();
   ctx->IASetVertexBuffers(0, 1, &buffer, &stride, &offset);
+  ctx->IASetPrimitiveTopology(topology);
   ctx->Draw(vertices.getVertexCount(), 0);
 }
 
-void Renderer::drawMesh(const VertexBufferBase& vertices, const IndexBuffer& indices){
+void Renderer::drawMesh(const VertexBufferBase& vertices, const IndexBuffer& indices, D3D11_PRIMITIVE_TOPOLOGY topology){
   auto vertexBuffer = vertices.getBuffer();
   unsigned int stride = vertices.getStride();
   unsigned int offset = 0;
   auto ctx = window->getDeviceContext();
   ctx->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
   ctx->IASetIndexBuffer(indices.getBuffer(), DXGI_FORMAT_R32_UINT, 0);
+  ctx->IASetPrimitiveTopology(topology);
   ctx->DrawIndexed(indices.getIndexCount(), 0, 0);
 }
 
