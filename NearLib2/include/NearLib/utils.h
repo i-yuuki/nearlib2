@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Windows.h>
+#include <charconv>
 #include <string_view>
 
 namespace Near{
