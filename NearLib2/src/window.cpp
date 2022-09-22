@@ -203,6 +203,10 @@ void Window::clear(const Math::Color& color){
   deviceContext->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }
 
+void Window::clearDepth(float depth){
+  deviceContext->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, depth, 0);
+}
+
 void Window::present(){
   swapChain->Present(1, 0);
 }

@@ -18,6 +18,7 @@ public:
   void init(HINSTANCE instance, int width, int height, const std::string_view title);
   void uninit();
   void clear(const Math::Color& color);
+  void clearDepth(float depth);
   void present();
   int getWidth() const;
   int getHeight() const;
