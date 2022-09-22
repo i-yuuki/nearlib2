@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include "DirectXTK/SimpleMath.h"
 
 namespace Near::Math{
@@ -27,6 +28,14 @@ constexpr T map(T value, T valueStart, T valueEnd, T targetStart, T targetEnd, b
     value = std::clamp(value, std::min(valueStart, valueEnd), std::max(valueStart, valueEnd));
   }
   return targetStart + ((value - valueStart) / (valueEnd - valueStart)) * (targetEnd - targetStart);
+}
+
+template<typename T>
+constexpr T lerp(T from, T to, T t, bool clamp = false){
+  if(clamp){
+    t = std::clamp<T>(t, 0, 1);
+  }
+  return from + (to - from) * t;
 }
 
 }
