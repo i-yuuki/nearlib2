@@ -14,7 +14,7 @@ public:
   // @param dynamic `set()`であとから中身を変えられるかどうか
   // @param indexCount インデックス数
   // @throws `dynamic == false && indices == nullptr`の場合
-  void init(bool dynamic, unsigned int indexCount, uint32_t* indices);
+  void init(bool dynamic, uint32_t* indices, unsigned int indexCount);
   // インデックスバッファを解放します。
   void uninit();
   unsigned int getIndexCount() const;

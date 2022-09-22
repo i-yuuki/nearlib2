@@ -11,7 +11,7 @@ IndexBuffer::~IndexBuffer(){
   uninit();
 }
 
-void IndexBuffer::init(bool dynamic, unsigned int indexCount, uint32_t* indices){
+void IndexBuffer::init(bool dynamic, uint32_t* indices, unsigned int indexCount){
   if(!dynamic && !indices) throw std::invalid_argument("Indices must be non-null in non-dynamic IndexBuffer");
 
   this->dynamic = dynamic;
