@@ -28,6 +28,9 @@ public:
   std::shared_ptr<T> getOrLoad(const std::string& path);
   // 使われていない素材を解放します。
   void unloadUnused();
+  // 全ての素材の管理をやめます。
+  // 使われていない素材はこのタイミングで解放もされます。
+  void clear();
 private:
   std::unordered_map<std::string, std::shared_ptr<T>> assets;
 };

@@ -36,3 +36,7 @@ void AssetManager<T>::unloadUnused(){
     }
   }
 }
+template<class T>
+void AssetManager<T>::clear(){
+  assets.clear();
+}
